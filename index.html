@@ -73,13 +73,8 @@ input{
     font-size:12px;
 }
 
-/* LOGIN STYLE */
-#adminPanel{
-    display:none;
-}
-#loginBox{
-    display:block;
-}
+#adminPanel{ display:none; }
+#loginBox{ display:block; }
 
 </style>
 </head>
@@ -91,7 +86,6 @@ input{
     <p>Pemilik: Lev</p>
 </div>
 
-<!-- LOGIN ADMIN -->
 <div class="card" id="loginBox">
     <h3>🔐 Login Admin</h3>
     <input type="password" id="pass" placeholder="Masukkan password admin">
@@ -99,7 +93,6 @@ input{
     <p id="msg"></p>
 </div>
 
-<!-- ADMIN PANEL -->
 <div class="card" id="adminPanel">
     <h3>⚙ ADMIN PANEL (STOK & HARGA)</h3>
 
@@ -116,7 +109,6 @@ input{
     <p class="stock" id="s3"></p>
 </div>
 
-<!-- ORDER -->
 <div class="card">
     <h3>🛒 Keranjang</h3>
 
@@ -133,7 +125,7 @@ input{
 
     <p id="totalText"></p>
 
-    <button onclick="checkout()">Checkout WhatsApp</button>
+    <button onclick="checkout()">Checkout</button>
 </div>
 
 <script>
@@ -141,8 +133,8 @@ input{
 let cart = [];
 
 let data = {
-    XZERO: {stock:5, price:15000},
-    OTAX:  {stock:3, price:20000},
+    XZERO: {stock:5, price:30000},
+    OTAX:  {stock:3, price:60000},
     TOXIC: {stock:4, price:25000}
 };
 
@@ -237,7 +229,7 @@ function checkout(){
     }
 
     let total = 0;
-    cart.forEach(i=> total += data[i].price);
+    cart.forEach(i => total += data[i].price);
 
     let diskon = 0;
     if(voucher === "FAIS10"){
@@ -254,10 +246,16 @@ Total: Rp${total}
 Diskon: Rp${diskon}
 Bayar: Rp${bayar}`;
 
-    let wa = "6285380620484";
-    let url = "https://wa.me/" + wa + "?text=" + encodeURIComponent(pesan);
+    let waUrl = "https://wa.me/6285380620484?text=" + encodeURIComponent(pesan);
+    let tgUrl = "https://t.me/share/url?url=&text=" + encodeURIComponent(pesan);
 
-    window.open(url, "_blank");
+    let pilih = confirm("OK = WhatsApp\nCancel = Telegram");
+
+    if(pilih){
+        window.open(waUrl, "_blank");
+    } else {
+        window.open(tgUrl, "_blank");
+    }
 }
 
 render();
@@ -266,3 +264,4 @@ render();
 
 </body>
 </html>
+        
